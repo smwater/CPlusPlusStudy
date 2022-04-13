@@ -234,7 +234,7 @@ int main()
     cout << endl;
     for (int i = 0; i < 5; i++) {
 
-        cout << "Hello Wlorld" << endl;
+        cout << "Hello World" << endl;
     }
 
     cout << endl;
@@ -251,7 +251,7 @@ int main()
     cout << endl;
 
     /*
-      실습2.
+        실습2.
         100미만의 3의 배수를 차례대로 출력되는 코드를 작성해 보자.
     */
 
