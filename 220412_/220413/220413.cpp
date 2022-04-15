@@ -229,13 +229,13 @@ int main()
         yExit = rand() % 10;
     }
 
-    map[xPlayer][yPlayer] = '0';
-    map[xExit][yExit] = 'E';
+    map[xPlayer][yPlayer] = '○';
+    map[xExit][yExit] = 'Ｅ';
 
     for (int x = 0; x < 10; x++) {
         for (int y = 0; y < 10; y++) {
             if (map[x][y] == 0) {
-                map[x][y] = '#';
+                map[x][y] = '  ';
             }
         }
     }  
@@ -244,18 +244,18 @@ int main()
         cout << "플레이어 0은 wasd(WASD) 키로 이동합니다." << endl << endl;
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                if (map[x][y] != 'E') {
-                    map[x][y] = '#';
+                if (map[x][y] != 'Ｅ') {
+                    map[x][y] = '  ';
                 }
             }
         }
 
-        map[xPlayer][yPlayer] = '0';
+        map[xPlayer][yPlayer] = '○';
 
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 cout << map[x][y];
-                if (map[x][y] == '0') {
+                if (map[x][y] == '○') {
                     xPlayer = x;
                     yPlayer = y;
                 }
@@ -297,7 +297,7 @@ int main()
         system("cls");
         inputKey = 0;
 
-        if (map[xExit][yExit] == '0') {
+        if (map[xExit][yExit] == '○') {
             break;
         }
     }
