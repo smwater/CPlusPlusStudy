@@ -5,7 +5,7 @@
 char* strcpy(char* copyStr, const char* originalStr) {
     char* temp = copyStr;
 
-    while (*originalStr != '\0') {
+    while (*originalStr != '\0' || *temp != '\0') {
         *temp = *originalStr;
         temp++;
         originalStr++;
@@ -133,13 +133,14 @@ char* strstr(char* originalStr, const char* keyStr) {
 }
 
 int main(void) {
-    char copyStr1[20] = "";
     char copyStr2[20] = "ABCDE";
 
-    printf("%s\n", strcpy(copyStr1, copyStr2));
+    printf("%s\n", strcpy(copyStr2, "Hello"));
+
+    printf("%d\n", strcmp(copyStr2, "Hello"));
 
     char pasteStr1[20] = "ABCD";
-    char pasteStr2[20] = "EFGH";
+    char pasteStr2[20] = "ABCDE";
 
     printf("%s\n", strcat(pasteStr1, pasteStr2));
 
