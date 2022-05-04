@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void myprintf2(int count, ...) {
+void myprintf(int count, ...) {
 	va_list args;
 	va_start(args, count);
 
@@ -24,17 +24,17 @@ void myprintf2(int count, ...) {
 /// </summary>
 /// <param name="format">형식 문자열</param>
 /// <param name="">가변 인자값</param>
-void myprintf(const char* format, ...);
+void myprintf2(const char* format, ...);
 
 void putcharChangeInt(int );
 
 int main(void) {
-	myprintf2(3, 1, 2, 3);
+	myprintf(3, 1, 2, 3);
 
-	myprintf("Hello My Printf : %d, %c, %d, %c, %s", -358, 'a', 1234, '?', "skdjflsd");
+	myprintf2("Hello My Printf : %d, %c, %s, %d, %c, %s", 1, 'a', "sdklfj", -1234, '?', "skdjflsd");
 }
 
-void myprintf(const char* format, ...) {
+void myprintf2(const char* format, ...) {
 	va_list args;
 	va_start(args, format);
 
@@ -43,16 +43,27 @@ void myprintf(const char* format, ...) {
 
 		if (*format == '%') {
 			switch (*++format) {
-			case 'd':
-				putcharChangeInt(va_arg(args, int));
+			case 'd': {
+				int n = va_arg(args, int);
+				putcharChangeInt(n);
 				break;
-			case 'c':
-				putchar(va_arg(args, char));
+			}
+			case 'c': {
+				char ch = va_arg(args, char);
+				putchar(ch);
 				break;
-			case 's':
-				// 여기도 만들어야함
+			}
+			case 's': {
+				char* str = va_arg(args, char*);
+				while (*str != '\0') {
+					putchar(*str);
+					str++;
+				}
 				break;
+			}
 			default:
+				putchar('\%');
+				format--;
 				break;
 			}
 			++format;
@@ -63,48 +74,23 @@ void myprintf(const char* format, ...) {
 }
 
 void putcharChangeInt(int num) {
-	if (num >= 0 && num < 10) {
+	if (num > -10 && num < 10) {
+		if (num < 0 && num > -10) {
+			putchar('-');
+			num *= -1;
+		}
 		putchar(num + '0');
 		return;
 	}
-	else if (num < 0 && num > -10) {
-		putchar('-');
-		num *= -1;
-		putchar(num + '0');
-		return;
-	}
+	else {
+		int digit = 0;
+		int originalNum = num;
 
-	int digit = 0;
-	int originalNum = num;
-	if (num >= 10) {
-		while (num / 10 != 0) {
-			digit++;
-			num /= 10;
+		if (num <= -10) {
+			putchar('-');
+			num *= -1;
+			originalNum *= -1;
 		}
-
-		while (digit) {
-			num = originalNum;
-			for (int i = 0; i < digit; i++) {
-				num /= 10;
-			}
-			putchar(num + '0');
-
-			for (int i = 0; i < digit; i++) {
-				num *= 10;
-			}
-			originalNum -= num;
-
-			digit--;
-		}
-
-		putchar(originalNum % 10 + '0');
-
-		return;
-	}
-	else if (num <= -10) {
-		putchar('-');
-		num *= -1;
-		originalNum *= -1;
 
 		while (num / 10 != 0) {
 			digit++;
