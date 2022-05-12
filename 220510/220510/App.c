@@ -22,7 +22,6 @@ bool canShow = false;
 float elapsedTime;
 
 void update(void) {
-	Sleep(10);
 
 	elapsedTime += Timer_GetDeltaTime();
 	if (elapsedTime >= 0.5f) {

@@ -4,7 +4,7 @@
 clock_t s_prevTick;
 float s_deltaTime;
 
-bool Timer_Init(void) {
+void Timer_Init(void) {
 	s_prevTick = clock();
 }
 
