@@ -15,19 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="추상 클래스.cpp">
+    <ClCompile Include="DataStructure.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="동적할당.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="가상 소멸자.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="TitleScene.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
