@@ -1,13 +1,132 @@
 #include "ForwardList.h"
 #include <utility>
 
+ForwardList::Node::Node(int data, Node* next)
+	: Data(data), Next(next)
+{
+
+}
+
+ForwardList::Node::~Node()
+{
+	Next = nullptr;
+}
+
+ForwardList::const_iterator::const_iterator(Node* p)
+	: _p(p)
+{
+
+}
+
+ForwardList::const_iterator::~const_iterator()
+{
+	_p = nullptr;
+}
+
+const int& ForwardList::const_iterator::operator*() const
+{
+	return _p->Data;
+}
+
+const int* ForwardList::const_iterator::operator->() const
+{
+	return &(_p->Data);
+}
+
+ForwardList::const_iterator& ForwardList::const_iterator::operator++()
+{
+	// 뭘 해줘야 할까?
+	// ++p;
+	_p = _p->Next;
+
+	return *this;
+}
+
+ForwardList::const_iterator ForwardList::const_iterator::operator++(int)
+{
+	// p++;
+	// 1. p를 1 증가시키고
+	// 2. 이전 p를 반환
+	const_iterator temp = *this;
+	_p = _p->Next;
+
+	return temp;
+}
+
+bool ForwardList::const_iterator::operator==(const const_iterator& rhs) const
+{
+	if (_p == rhs._p)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool ForwardList::const_iterator::operator!=(const const_iterator& rhs) const
+{
+	return !(*this == rhs);
+}
+
+bool ForwardList::const_iterator::operator==(nullptr_t p) const
+{
+	// nulllptr은 C++11부터 나옴
+	// 왜 나왔냐면 NULL의 모호함 때문.
+	// NULL 정수로서의 0도 되고
+	// 포인터로서의 NULL도 되기 때문에
+	if (_p == nullptr)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool ForwardList::const_iterator::operator!=(nullptr_t p) const
+{
+	return !(*this == nullptr);
+}
+
+ForwardList::iterator::iterator(Node* p)
+	: const_iterator(p)
+{
+
+}
+
+int& ForwardList::iterator::operator*() const
+{
+	return (int&)const_iterator::operator*();
+}
+
+int* ForwardList::iterator::operator->() const
+{
+	return (int*)const_iterator::operator->();
+}
+
+ForwardList::iterator& ForwardList::iterator::operator++()
+{
+	const_iterator::operator++();
+
+	return *this;
+}
+
+ForwardList::iterator ForwardList::iterator::operator++(int)
+{
+	iterator temp = *this;
+	const_iterator::operator++();
+
+	return temp;
+}
+
 ForwardList::ForwardList()
 {
-	// _head -> []
-	// _end -> []
-
-	// [] -> []
-	_head->Next = _end;
+	// begin() == end()
+	// _head->Next == nullptr
+	// _head = new Node(0, nullptr);
 }
 
 ForwardList::ForwardList(size_t count)
@@ -35,7 +154,6 @@ ForwardList& ForwardList::operator=(const ForwardList& rhs)
 	{
 		ForwardList temp(rhs);
 		std::swap(_head, temp._head);
-		std::swap(_end, temp._end);
 	}
 
 	return *this;
@@ -47,8 +165,6 @@ ForwardList::~ForwardList()
 	
 	delete _head;
 	_head = nullptr;
-	
-	delete _end;
 }
 
 int& ForwardList::front()
@@ -83,12 +199,12 @@ ForwardList::const_iterator ForwardList::begin() const
 
 ForwardList::iterator ForwardList::end()
 {
-	return _end;
+	return nullptr;
 }
 
 ForwardList::const_iterator ForwardList::end() const
 {
-	return _end;
+	return nullptr;
 }
 
 ForwardList::iterator ForwardList::insert_after(const_iterator pos, int value)
@@ -108,20 +224,20 @@ ForwardList::iterator ForwardList::insert_after(const_iterator pos, int value)
 
 ForwardList::iterator ForwardList::erase_after(const_iterator pos)
 {
-	if (empty())
-	{
-		return end();
-	}
-
-	// [] -> [] -> [] -> []
+	// [] -> [] -> [] -> [*]
 	//       pos
 	Node* where = pos._p;
 	Node* removed = where->Next;
 
 	where->Next = removed->Next;
 	removed->Next = nullptr;
+	// [] -> [] -> [*]
+	//      where
 
-	return removed;
+	// [] : removed
+	delete removed;
+
+	return where->Next;
 }
 
 void ForwardList::push_front(int value)
@@ -136,7 +252,7 @@ void ForwardList::pop_front()
 
 bool ForwardList::empty() const
 {
-	if (_head->Next == _end)	// if (begin() == end())
+	if (_head->Next == nullptr)	// if (begin() == end())
 	{
 		return true;
 	}
@@ -165,4 +281,25 @@ bool ForwardList::contains(int value) const
 	}
 
 	return false;
+}
+
+bool ForwardList::compareForward_list(const std::forward_list<int>& rhs)
+{
+	ForwardList& lhsTemp(*this);
+	std::forward_list<int> rhsTemp = std::forward_list<int>(rhs);
+
+	while (!(lhsTemp.empty() && rhsTemp.empty()))
+	{
+		if (lhsTemp.front() == rhsTemp.front())
+		{
+			lhsTemp.pop_front();
+			rhsTemp.pop_front();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
