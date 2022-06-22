@@ -15,43 +15,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="단일 연결 리스트.cpp">
+    <ClCompile Include="백준 1406번 교수님 풀이.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="이중 연결 리스트.cpp">
+    <ClCompile Include="백준 5397번 교수님 풀이.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ForwardList.cpp">
+    <ClCompile Include="Stack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ForwardList_notIterator.cpp">
+    <ClCompile Include="백준 10828번.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="백준 10828번 함수 직접 작성.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="List.cpp">
+    <ClCompile Include="백준 10773번.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ForwardListTest.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="백준 1406.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="백준 5397.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ForwardList.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ForwardList_notIterator.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="List.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
