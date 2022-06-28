@@ -9,7 +9,24 @@ using namespace std;
 vector<int> graph[1001];
 int N, M, V;
 
-void dfs()
+void dfs(int vertex)
+{
+	static bool isVisited[1001] = { false };
+
+	isVisited[vertex] = true;
+
+	cout << vertex << " ";
+
+	for (int next : graph[vertex])
+	{
+		if (isVisited[next] == false)
+		{
+			dfs(next);
+		}
+	}
+}
+
+void dfsWithStack()
 {
 	// 1. 방문 여부를 저장해야 한다.
 	bool isVisited[1001] = { false };
@@ -92,7 +109,9 @@ int main()
 		sort(graph[i].begin(), graph[i].end());
 	}
 
-	dfs();
+	dfsWithStack();
+	cout << "\n";
+	dfs(V);
 	cout << "\n";
 	bfs();
 }
