@@ -6,8 +6,7 @@
 using namespace std;
 
 int N, M;
-char maze[100][100];
-bool isVisited[100][100] = { false };
+char maze[101][101] = {};
 
 int searchMaze(int r, int c)
 {
@@ -23,11 +22,11 @@ int searchMaze(int r, int c)
 		{
 			int mr = q.front().first;
 			int mc = q.front().second;
-			isVisited[mr][mc] = true;
 			q.pop();
 
 			if (mr == N - 1 && mc == M - 1)
 			{
+				maze[mr][mc] == '2';
 				return move;
 			}
 
@@ -43,16 +42,13 @@ int searchMaze(int r, int c)
 				{
 					continue;
 				}
-				if (isVisited[nr][nc] || maze[nr][nc] != '1')
+				if (maze[nr][nc] == '1')
 				{
-					continue;
+					q.emplace(nr, nc);
+					maze[nr][nc] = '2';
 				}
-
-				q.emplace(nr, nc);
 			}
-
 		}
-
 		move++;
 	}
 	
@@ -65,7 +61,7 @@ int main()
 
 	for (int r = 0; r < N; r++)
 	{
-		scanf("%s", &maze[r]);
+		scanf("%s", maze[r]);
 	}
 
 	int move = 0;
@@ -73,12 +69,13 @@ int main()
 	{
 		for (int c = 0; c < M; c++)
 		{
-			if (maze[r][c] == '1' && isVisited[r][c] == false)
+			if (maze[r][c] == '1')
 			{
+				maze[r][c] = '2';
 				move = searchMaze(r, c);
+				printf("%d\n", move);
+				return 0;
 			}
 		}
 	}
-
-	printf("%d\n", move);
 }
