@@ -1,73 +1,82 @@
-#include <iostream>
-#include <utility>
-#include <queue>
+#define _CRT_SECURE_NO_WARNINGS
 
-using namespace std;
+#include <stdio.h>
+#include <memory.h>
 
-int chess[300][300] = {};
+#define Q_SIZE (1 << 15)
+
+int move[300][300];
 int T, I;
-pair<int, int> startPos;
-pair<int, int> movePos;
+struct { int R = 0; int C = 0; } Q[Q_SIZE], start, end;
+int p, b;
 
-void moveKnight(int r, int c)
+void push(int r, int c)
 {
-	queue<pair<int, int>> q;
-	q.emplace(r, c);
+	Q[p] = { r, c };
+	p = (p + 1) % Q_SIZE;
+}
 
-	int move = 0;
-	while (q.empty() == false)
+void pop(int& r, int& c)
+{
+	r = Q[b].R;
+	c = Q[b].C;
+	b = (b + 1) % Q_SIZE;
+}
+
+int bfs()
+{
+	static int dr[] = { -2, -2, 2, 2, -1, 1, -1, 1 };
+	static int dc[] = { -1, 1, -1, 1, -2, -2, 2, 2 };
+
+	p = b = 0;
+	push(start.R, start.C);
+
+	while (p != b)
 	{
-		int size = q.size();
-		for (int i = 0; i < size; i++)
+		int r, c;
+		pop(r, c);
+
+		if (r == end.R && c == end.C)
 		{
-			int r = q.front().first;
-			int c = q.front().second;
-			q.pop();
-
-			if (r == movePos.first && c == movePos.second)
-			{
-				cout << move << "\n";
-				return;
-			}
-
-			static const int dr[] = { -2, -2, 2, 2, -1, 1, -1, 1 };
-			static const int dc[] = { -1, 1, -1, 1, -2, -2, 2, 2 };
-
-			for (int j = 0; j < 8; j++)
-			{
-				int nr = r + dr[j];
-				int nc = c + dc[j];
-
-				if (nr < 0 || nr >= I || nc < 0 || nc >= I)
-				{
-					continue;
-				}
-				if (chess[nr][nc] == 0)
-				{
-					q.emplace(nr, nc);
-				}
-			}
+			return move[r][c];
 		}
 
-		move++;
+		for (int i = 0; i < 8; i++)
+		{
+			int nr = r + dr[i];
+			int nc = c + dc[i];
+
+			if (nr < 0 || nr >= I || nc < 0 || nc >= I)
+			{
+				continue;
+			}
+			if (nr == start.R && nc == start.C)
+			{
+				continue;
+			}
+			if (move[nr][nc] != 0)
+			{
+				continue;
+			}
+			
+			move[nr][nc] = move[r][c] + 1;
+			push(nr, nc);
+		}
 	}
 }
 
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
-	cout.tie(nullptr);
-
-	cin >> T;
+	scanf("%d", &T);
 
 	while (T--)
 	{
-		cin >> I;
+		scanf("%d", &I);
+		scanf("%d %d", &start.R, &start.C);
+		scanf("%d %d", &end.R, &end.C);
 
-		cin >> startPos.first >> startPos.second;
-		cin >> movePos.first >> movePos.second;
+		printf("%d\n", bfs());
 
-		moveKnight(startPos.first, startPos.second);
+		memset(move, 0, sizeof(move));
 	}
 }
